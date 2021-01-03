@@ -10,14 +10,14 @@ isoseq_reads = Channel.fromPath("${raw_isoseq}/**/*.fastq.gz", type: 'file').buf
 process fastqc {
 	label 'fastqc'
 	label 'parellel'
-	tag "$in_fastq"
+	tag "read.fastq.gz"
 	cpus { 12 }
 
 	input:
 		file 'read.fastq.gz' from isoseq_reads
 
 	"""
-	fastqc read.fastq.gz -t {task.cpus} --noextract -o ${out_dir}
+	fastqc read.fastq.gz -t ${task.cpus} --noextract -o ${out_dir}
 	"""
 }
 
