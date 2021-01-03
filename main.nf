@@ -5,19 +5,20 @@ out_dir = file(params.outdir)
 
 out_dir.mkdir()
 
-isoseq_reads = Channel.fromPath("${raw_isoseq}/**/*.fastq.gz", type: 'file').buffer(size:1)
+isosamples = Channel.fromPath("$raw_isoseq/**/", type: 'file').buffer(size:1)
+isoseq_reads = Channel.fromPath("$raw_isoseq/**/*.fastq.gz", type: 'file').buffer(size:1)
 
 process fastqc {
 	label 'fastqc'
-	label 'parellel'
-	tag "read.fastq.gz"
+	tag "$iso_sample"
 	cpus { 12 }
+	time '6h'
 
 	input:
-		file 'read.fastq.gz' from isoseq_reads
+		file iso_sample from isoseq_reads
 
 	"""
-	fastqc read.fastq.gz -t ${task.cpus} --noextract -o ${out_dir}
+	fastqc $iso_sample -t ${task.cpus} --noextract -o $out_dir
 	"""
 }
 
