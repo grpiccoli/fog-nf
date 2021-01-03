@@ -8,8 +8,8 @@ out_dir.mkdir()
 isoseq_reads = file("${raw_isoseq}/*.fastqc.gz")
 
 process fastqc {
-	label: 'fastqc'
-	label: 'parellel'
+	label 'fastqc'
+	label 'parellel'
 	tag { "${param.projectName}.fastqc.${sample}" }
 	cpus { 12 }
 	publishDir "${out_dir}/qc/raw/${sample}", mode:'copy',overwrite: false
