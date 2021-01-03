@@ -17,9 +17,6 @@ process fastqc {
 	input:
 		file 'read.fastq.gz' from isoseq_reads
 
-	output:
-		file("${out_dir}/*.zip") into fastqc_files
-
 	"""
 	fastqc read.fastq.gz -t {task.cpus} --noextract -o ${out_dir}
 	"""
