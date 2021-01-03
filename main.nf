@@ -13,7 +13,6 @@ process fastqc {
 	tag "$in_fastq"
 	time '10h'
 	cpus { 12 }
-	publishDir "${out_dir}/qc/raw/${sample}", mode:'copy',overwrite: false
 
 	input:
 		file 'read.fastq.gz' from isoseq_reads
