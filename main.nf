@@ -15,7 +15,7 @@ process fastqc {
 	publishDir "${out_dir}/qc/raw/${sample}", mode:'copy',overwrite: false
 
 	input:
-		set sample, file(in_fastq) from isoseq_reads
+		file in_fastq from isoseq_reads
 
 	output:
 		file("${sample}_fastqc/*.zip") into fastqc_files
