@@ -11,7 +11,6 @@ process fastqc {
 	label 'fastqc'
 	label 'parellel'
 	tag "$in_fastq"
-	time '10h'
 	cpus { 12 }
 
 	input:
