@@ -19,12 +19,10 @@ process fastqc {
 		file 'read.fastq.gz' from isoseq_reads
 
 	output:
-		file("${out_dir}/fastqc/*.zip") into fastqc_files
+		file("${out_dir}/*.zip") into fastqc_files
 
 	"""
-	module load singularity/3.6.4
-	mkdir -p ${out_dir}/fastqc
-	fastqc read.fastq.gz -t {task.cpus} --noextract -o ${out_dir}/fastqc
+	read.fastq.gz -t {task.cpus} --noextract -o ${out_dir}
 	"""
 }
 
