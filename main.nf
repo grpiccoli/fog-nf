@@ -21,7 +21,7 @@ process fastqc {
 		file("${out_dir}/*.zip") into fastqc_files
 
 	"""
-	read.fastq.gz -t {task.cpus} --noextract -o ${out_dir}
+	fastqc read.fastq.gz -t {task.cpus} --noextract -o ${out_dir}
 	"""
 }
 
