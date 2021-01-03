@@ -5,7 +5,6 @@ out_dir = file(params.outdir)
 
 out_dir.mkdir()
 
-isosamples = Channel.fromPath("$raw_isoseq/**/", type: 'file').buffer(size:1)
 isoseq_reads = Channel.fromPath("$raw_isoseq/**/*.fastq.gz", type: 'file').buffer(size:1)
 
 process fastqc_isoseq {
@@ -13,13 +12,14 @@ process fastqc_isoseq {
 	tag "$iso_sample"
 
 	input:
-		file iso_sample from isoseq_reads
+	file iso_sample from isoseq_reads
 
 	output:
-        file("$out_dir/*.zip") into iso_fastqc
+	file "*_fastqc.{zip,html}") into iso_fastqc
 
+	script:
 	"""
-	fastqc $iso_sample -t ${task.cpus} --noextract -o $out_dir
+	fastqc $iso_sample -t ${task.cpus} --noextract
 	"""
 }
 
@@ -28,11 +28,13 @@ process multiqc_isoseq {
     tag "$iso_fastqc"
 
     input:
-        file('*') from iso_fastqc.collect()
+	file ('iso_fastqc/*') from iso_fastqc.collect().ifEmpty([])
 
 	output:
-		file("multiqc_report.html")
+	file "multiqc_report.html" into iso_multiqc
+	file "multiqc_data"
 
+	script:
     """
     multiqc .
     """
