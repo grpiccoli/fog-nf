@@ -15,7 +15,7 @@ process fastqc_isoseq {
 	file iso_sample from isoseq_reads
 
 	output:
-	file "*_fastqc.{zip,html}") into iso_fastqc
+	file "*_fastqc.{zip,html}" into iso_fastqc
 
 	script:
 	"""
